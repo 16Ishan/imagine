@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -32,7 +33,12 @@ public class OrdersServiceImpl implements OrdersService
             List<Order> orders = orderRepository.findByUserId(UsersServiceImpl.USER_ID);
 
             orders.forEach(order -> {
-                List<Integer> bookIdList = order.getBookIdList();
+                List<Integer> bookIdList = new ArrayList<>();
+                String[] bookIdListAr = order.getBookIdList().split(",");
+                for(String bookId: bookIdListAr)
+                {
+                    bookIdList.add(Integer.parseInt(bookId));
+                }
 
                 List<Book> bookList = bookIdList.stream()
                         .map(bookId -> bookRepository.findById(bookId))
@@ -65,7 +71,9 @@ public class OrdersServiceImpl implements OrdersService
             log.debug("Total Amount: {}",totalAmount);
 
             Order order = Order.builder()
-                    .bookIdList(ShoppingCartServiceImpl.SHOPPING_CART)
+                    .bookIdList(ShoppingCartServiceImpl.SHOPPING_CART.stream()
+                            .map(Object::toString)
+                            .collect(Collectors.joining(",")))
                     .userId(UsersServiceImpl.USER_ID)
                     .build();
             orderRepository.save(order);

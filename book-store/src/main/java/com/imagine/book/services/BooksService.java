@@ -8,5 +8,5 @@ public interface BooksService
 {
     List<Book> getAllBooks();
     Book getBookByID(Integer id);
-    Book searchBook(String keyword);
+    List<Book> searchBook(String keyword);
 }

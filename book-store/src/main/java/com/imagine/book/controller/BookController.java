@@ -55,7 +55,7 @@ public class BookController
             {
                 Book book = booksService.getBookByID(bookId);
                 if(book != null)
-                    return new ResponseEntity<>("Book found: "+book, HttpStatus.OK);
+                    return new ResponseEntity<>("Book found: \n"+ book, HttpStatus.OK);
                 else
                     throw new BookNotFoundException("No books found with the given ID.");
             }
@@ -77,16 +77,14 @@ public class BookController
         {
             if(StringUtils.isNotBlank(UsersServiceImpl.AUTH_TOKEN))
             {
-                Book book = booksService.searchBook(keyword);
-                if(book != null)
-                    return new ResponseEntity<>("Book found: "+book, HttpStatus.OK);
+                List<Book> bookList = booksService.searchBook(keyword);
+                if(!bookList.isEmpty())
+                    return new ResponseEntity<>("Books found: \n"+bookList, HttpStatus.OK);
                 else
                     throw new BookNotFoundException("No books found with the given keyword.");
             }
             else
                 throw new AuthenticationFailedException(AUTH_MESSAGE);
-
-
         }
         catch (Exception e)
         {

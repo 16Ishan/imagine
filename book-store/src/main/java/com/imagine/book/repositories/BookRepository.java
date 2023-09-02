@@ -6,13 +6,14 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface BookRepository extends JpaRepository<Book, Integer>
 {
-    @Query("from Book where title like '%:keyword%' or author like '%:keyword%' " +
-            "or genre like '%:keyword%'")
-    Optional<Book> searchBookByKeyword(String keyword);
+    @Query("from Book where LOWER(title) like LOWER(CONCAT('%', :keyword, '%')) " +
+            "or LOWER(author) like LOWER(CONCAT('%', :keyword, '%')) " +
+            "or LOWER(genre) like LOWER(CONCAT('%', :keyword, '%'))")
+    List<Book> searchBookByKeyword(String keyword);
 
     @Modifying
     @Transactional
