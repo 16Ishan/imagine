@@ -55,23 +55,17 @@ public class BooksServiceImpl implements BooksService
     }
 
     @Override
-    public Book searchBook(String keyword)
+    public List<Book> searchBook(String keyword)
     {
         try
         {
-            Optional<Book> bookOptional = bookRepository.searchBookByKeyword(keyword);
-            if(bookOptional.isPresent())
-            {
-                return bookOptional.get();
-            }
-            else
-                throw new BookNotFoundException("No books found with the given keyword.");
+            return bookRepository.searchBookByKeyword(keyword);
         }
         catch (Exception e)
         {
             log.error(e.getMessage());
             e.printStackTrace();
         }
-        return null;
+        return new ArrayList<>();
     }
 }

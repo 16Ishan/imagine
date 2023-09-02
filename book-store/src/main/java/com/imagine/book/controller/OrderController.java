@@ -1,19 +1,21 @@
 package com.imagine.book.controller;
 
 import com.imagine.book.exceptions.AuthenticationFailedException;
-import com.imagine.book.exceptions.BookNotFoundException;
+import com.imagine.book.exceptions.EmptyCartException;
 import com.imagine.book.model.entity.Book;
-import com.imagine.book.services.BooksService;
 import com.imagine.book.services.OrdersService;
+import com.imagine.book.services.impl.ShoppingCartServiceImpl;
 import com.imagine.book.services.impl.UsersServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +52,9 @@ public class OrderController
     {
         try
         {
+            if(ShoppingCartServiceImpl.SHOPPING_CART.isEmpty())
+                throw new EmptyCartException("No items added in cart.");
+
             if(StringUtils.isNotBlank(UsersServiceImpl.AUTH_TOKEN))
                 return new ResponseEntity<>(ordersService.placeOrder(), HttpStatus.OK);
             else

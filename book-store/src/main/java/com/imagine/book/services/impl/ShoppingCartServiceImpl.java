@@ -77,7 +77,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService
         try
         {
             Optional<Book> bookOptional = bookRepository.findById(bookId);
-            if(bookOptional.isPresent())
+            boolean bookIdPresentInCart = SHOPPING_CART.stream()
+                    .anyMatch(book -> book.equals(bookId));
+
+            if(bookOptional.isPresent() && bookIdPresentInCart)
             {
                 Book book = bookOptional.get();
                 SHOPPING_CART.remove(book.getBookId());
