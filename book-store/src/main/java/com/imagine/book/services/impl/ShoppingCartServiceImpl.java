@@ -18,7 +18,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService
 {
     @Autowired
     private BookRepository bookRepository;
-    public static final List<Integer> SHOPPING_CART = new ArrayList<>();
+    protected static final List<Integer> SHOPPING_CART = new ArrayList<>();
 
     @Override
     public List<Book> getBooksInCart()

@@ -4,10 +4,11 @@ import java.util.Random;
 
 public class GenerateRandomHexCode
 {
+    public static final Random random = new Random();
+
+    private GenerateRandomHexCode(){}
     public static String generateHex()
     {
-        Random random = new Random();
-
         StringBuilder hexCodeBuilder = new StringBuilder(32);
 
         for (int i = 0; i < 32; i++) {

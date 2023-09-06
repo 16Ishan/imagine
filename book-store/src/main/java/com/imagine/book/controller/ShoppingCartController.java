@@ -1,7 +1,6 @@
 package com.imagine.book.controller;
 
 import com.imagine.book.exceptions.AuthenticationFailedException;
-import com.imagine.book.exceptions.BookNotFoundException;
 import com.imagine.book.model.entity.Book;
 import com.imagine.book.services.ShoppingCartService;
 import com.imagine.book.services.impl.UsersServiceImpl;
@@ -29,7 +28,7 @@ public class ShoppingCartController
     {
         try
         {
-            if(StringUtils.isNotBlank(UsersServiceImpl.AUTH_TOKEN))
+            if(StringUtils.isNotBlank(UsersServiceImpl.authToken))
                 return new ResponseEntity<>(shoppingCartService.getBooksInCart(), HttpStatus.OK);
             else
                 throw new AuthenticationFailedException(AUTH_MESSAGE);
@@ -47,7 +46,7 @@ public class ShoppingCartController
     {
         try
         {
-            if(StringUtils.isNotBlank(UsersServiceImpl.AUTH_TOKEN))
+            if(StringUtils.isNotBlank(UsersServiceImpl.authToken))
                 return new ResponseEntity<>(shoppingCartService.addBookToCart(bookId), HttpStatus.OK);
             else
                 throw new AuthenticationFailedException(AUTH_MESSAGE);
@@ -64,7 +63,7 @@ public class ShoppingCartController
     {
         try
         {
-            if(StringUtils.isNotBlank(UsersServiceImpl.AUTH_TOKEN))
+            if(StringUtils.isNotBlank(UsersServiceImpl.authToken))
                 return new ResponseEntity<>(shoppingCartService.removeBookFromCart(bookId), HttpStatus.OK);
             else
                 throw new AuthenticationFailedException(AUTH_MESSAGE);
