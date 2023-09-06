@@ -1,5 +1,6 @@
 package com.imagine.book.services.impl;
 
+import com.imagine.book.exceptions.EmptyCartException;
 import com.imagine.book.model.entity.Book;
 import com.imagine.book.model.entity.Order;
 import com.imagine.book.repositories.BookRepository;
@@ -30,7 +31,7 @@ public class OrdersServiceImpl implements OrdersService
         Map<Integer, List<Book>> orderMap = new HashMap<>();
         try
         {
-            List<Order> orders = orderRepository.findByUserId(UsersServiceImpl.USER_ID);
+            List<Order> orders = orderRepository.findByUserId(UsersServiceImpl.userId.get());
 
             orders.forEach(order -> {
                 List<Integer> bookIdList = new ArrayList<>();
@@ -62,6 +63,9 @@ public class OrdersServiceImpl implements OrdersService
     {
         try
         {
+            if(ShoppingCartServiceImpl.SHOPPING_CART.isEmpty())
+                throw new EmptyCartException("No items added in cart.");
+
             double totalAmount = ShoppingCartServiceImpl.SHOPPING_CART.stream()
                     .map(bookId -> bookRepository.findById(bookId))
                     .filter(Optional::isPresent)
@@ -74,7 +78,7 @@ public class OrdersServiceImpl implements OrdersService
                     .bookIdList(ShoppingCartServiceImpl.SHOPPING_CART.stream()
                             .map(Object::toString)
                             .collect(Collectors.joining(",")))
-                    .userId(UsersServiceImpl.USER_ID)
+                    .userId(UsersServiceImpl.userId.get())
                     .build();
             orderRepository.save(order);
 

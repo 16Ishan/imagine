@@ -1,10 +1,8 @@
 package com.imagine.book.controller;
 
 import com.imagine.book.exceptions.AuthenticationFailedException;
-import com.imagine.book.exceptions.EmptyCartException;
 import com.imagine.book.model.entity.Book;
 import com.imagine.book.services.OrdersService;
-import com.imagine.book.services.impl.ShoppingCartServiceImpl;
 import com.imagine.book.services.impl.UsersServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -34,7 +32,7 @@ public class OrderController
     {
         try
         {
-            if(StringUtils.isNotBlank(UsersServiceImpl.AUTH_TOKEN))
+            if(StringUtils.isNotBlank(UsersServiceImpl.authToken))
                 return new ResponseEntity<>(ordersService.getPreviousOrders(), HttpStatus.OK);
             else
                 throw new AuthenticationFailedException(AUTH_MESSAGE);
@@ -52,10 +50,7 @@ public class OrderController
     {
         try
         {
-            if(ShoppingCartServiceImpl.SHOPPING_CART.isEmpty())
-                throw new EmptyCartException("No items added in cart.");
-
-            if(StringUtils.isNotBlank(UsersServiceImpl.AUTH_TOKEN))
+            if(StringUtils.isNotBlank(UsersServiceImpl.authToken))
                 return new ResponseEntity<>(ordersService.placeOrder(), HttpStatus.OK);
             else
                 throw new AuthenticationFailedException(AUTH_MESSAGE);

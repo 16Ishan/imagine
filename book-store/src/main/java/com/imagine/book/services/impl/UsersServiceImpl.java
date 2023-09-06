@@ -8,18 +8,18 @@ import com.imagine.book.repositories.UserRepository;
 import com.imagine.book.services.UsersService;
 import com.imagine.book.utils.GenerateRandomHexCode;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 @Slf4j
 public class UsersServiceImpl implements UsersService
 {
-    public static Integer USER_ID = -1;
-    public static String AUTH_TOKEN = StringUtils.EMPTY;
+    public static final AtomicInteger userId = new AtomicInteger(-1);
+    public static final StringBuilder authToken = new StringBuilder();
 
     @Autowired
     private UserRepository userRepository;
@@ -63,8 +63,8 @@ public class UsersServiceImpl implements UsersService
                 User user = userOptional.get();
                 if(password.equals(user.getPassword()))
                 {
-                    USER_ID = user.getUserId();
-                    AUTH_TOKEN = GenerateRandomHexCode.generateHex();
+                    userId.set(user.getUserId());
+                    authToken.append(GenerateRandomHexCode.generateHex());
                     return "Login successful.";
                 }
                 else
@@ -87,8 +87,8 @@ public class UsersServiceImpl implements UsersService
     {
         try
         {
-            USER_ID = -1;
-            AUTH_TOKEN = StringUtils.EMPTY;
+            userId.set(-1);
+            authToken.setLength(0);
 
             return "Logout successful";
         }

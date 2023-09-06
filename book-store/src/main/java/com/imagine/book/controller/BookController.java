@@ -33,7 +33,7 @@ public class BookController
     {
         try
         {
-            if(StringUtils.isNotBlank(UsersServiceImpl.AUTH_TOKEN))
+            if(StringUtils.isNotBlank(UsersServiceImpl.authToken))
                 return new ResponseEntity<>(booksService.getAllBooks(), HttpStatus.OK);
             else
                 throw new AuthenticationFailedException(AUTH_MESSAGE);
@@ -51,7 +51,7 @@ public class BookController
     {
         try
         {
-            if(StringUtils.isNotBlank(UsersServiceImpl.AUTH_TOKEN))
+            if(StringUtils.isNotBlank(UsersServiceImpl.authToken))
             {
                 Book book = booksService.getBookByID(bookId);
                 if(book != null)
@@ -75,7 +75,7 @@ public class BookController
     {
         try
         {
-            if(StringUtils.isNotBlank(UsersServiceImpl.AUTH_TOKEN))
+            if(StringUtils.isNotBlank(UsersServiceImpl.authToken))
             {
                 List<Book> bookList = booksService.searchBook(keyword);
                 if(!bookList.isEmpty())
