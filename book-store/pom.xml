@@ -16,7 +16,7 @@
 	<properties>
 		<java.version>17</java.version>
 		<sonar.host.url>http://20.51.222.120:9000</sonar.host.url>
-		<sonar.token>OJtweF2RWN5vPjU/KMe3wzMaoEh1eC6fF+9C4iiFFnM=</sonar.token>
+		<sonar.token>sqp_00a5dcb14c033c9dad71d631db98284ea2621073</sonar.token>
 	</properties>
 	<dependencies>
 		<dependency>
