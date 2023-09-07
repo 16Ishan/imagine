@@ -15,6 +15,8 @@
 	<description>Book Store</description>
 	<properties>
 		<java.version>17</java.version>
+		<sonar.host.url>http://20.51.222.120:9000</sonar.host.url>
+		<sonar.token>sqp_184665bb6340360a916a7fcb37713434fb054f2e</sonar.token>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -84,7 +86,30 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+            <groupId>org.sonarsource.scanner.maven</groupId>
+            <artifactId>sonar-maven-plugin</artifactId>
+            <version>3.9.1.2184</version> <!-- Use the latest version available -->
+        </plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+    <profile>
+        <id>sonar</id>
+        <activation>
+            <activeByDefault>true</activeByDefault>
+        </activation>
+        <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>3.9.1.2184</version> <!-- Use the same version as above -->
+                </plugin>
+            </plugins>
+        </build>
+    </profile>
+</profiles>
 
 </project>
